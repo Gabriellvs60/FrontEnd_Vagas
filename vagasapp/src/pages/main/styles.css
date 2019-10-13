@@ -1,0 +1,36 @@
+
+.rowLink:hover {
+    background-color: rgb(182, 226, 169);
+    color: blue;
+  }
+
+.rowLink:active {
+    background-color: rgb(245, 159, 159);
+  }
+
+.tableUsuarios{
+  position: absolute;
+    margin-top: 150px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left
+    
+}
+
+th, td {
+  width: 30%;
+  padding: 15px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.idUser{
+  text-decoration: underline;
+    color: blue;
+}
+
+
+
+
