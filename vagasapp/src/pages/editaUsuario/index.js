@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './styles.css';
 
 import api from '../../services/api';
-import Axios from 'axios'
+
 import { Button, Form, FormGroup, Label, Input, Alert }
     from 'reactstrap';
 
@@ -28,7 +28,7 @@ export default class EditaUsuario extends Component {
 
     //tutorial aqui: https://youtu.be/bE4q8Eg6DK0
     componentDidMount() {
-        const { id } = this.state.id;
+        const { id } = this.state.id; //remover e setar apenas com o state nos parametros a frente --TODO--
         api.get('/' + id)
             .then(response => {
                 this.setState({
@@ -44,7 +44,7 @@ export default class EditaUsuario extends Component {
             })
     }
 
-    //setando estados nas entradas do form
+    //setando estados das entradas do form
     changeHandler(e) {
         const target = e.target;
         const value = target.value;
@@ -54,8 +54,9 @@ export default class EditaUsuario extends Component {
         });
     }
 
+    //Submetendo dados ao SERVER
     submitHandler = (e) => {
-        //pegando o id do usuario 
+        //COLETANDO DADOS
         const { id } = this.state.id;
         //coletando dados do estado, jogando no objeto a ser enviado
         const nome = this.state.nome;
@@ -69,12 +70,6 @@ export default class EditaUsuario extends Component {
             dataNascimento,
             id
         }
-        //const {data} = await api.put(`/${id}`, user)
-        //const currentState = this.state.todoListItems
-        //this.setState({todoListItems: currentState.concat(itemToEdit)})
-
-        //Salvando usuário modificado
-        //api.put('/' + id , {data})
 
         api.put(`http://localhost:4000/usuarios/${this.state.id}`, user)
             .then(res => {
@@ -90,12 +85,14 @@ export default class EditaUsuario extends Component {
             })
             .catch((err) => {
                 this.setState({
+                    //Ajustar feedback ao usuário --TODO--
                     message: { text: 'Erro na edição do usuário', alert: 'danger' }
                 })
                 console.log(err);
             })
     }
 
+    //Roteamento
     returnToMain = () => {
         this.props.history.push('/');
     }

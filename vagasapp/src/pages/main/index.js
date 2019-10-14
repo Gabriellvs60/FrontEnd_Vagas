@@ -26,7 +26,8 @@ export default class Main extends Component {
         }
     }
 
-    //chamada json sem axios
+    //chamada json sem axios , puro 
+    // --todo-- tornar rota universal
     componentDidMount() {
         let url = "http://localhost:4000/usuarios"
         fetch(url)
@@ -63,28 +64,28 @@ export default class Main extends Component {
         this.props.history.push('/editaUsuario/' + id)
     }
 
-
+    //deletando item
     deleteItem = id => {
         let confirmDelete = window.confirm('Deseja Realmente deletar o item')
         if (confirmDelete == true) {
             api.delete('http://localhost:4000/usuarios/' + id)
-            .then(res => {
-                this.setState({
-                    message: { text: 'Usuário excluido com sucesso', alert: 'success' }
+                .then(res => {
+                    this.setState({
+                        message: { text: 'Usuário excluido com sucesso', alert: 'success' }
+                    })
+                    //refresh da pagina
+                    this.componentDidMount();
+                    //duração do alerta ao usuário
+                    this.timerMessage(9000);
                 })
-                //refresh da pagina
-                this.componentDidMount();
-                //duração do alerta ao usuário
-                this.timerMessage(9000);
-            })
-            .catch((err) => {
-                this.setState({
-                    message: { text: 'Erro na exclusão do usuário', alert: 'danger' }
+                .catch((err) => {
+                    this.setState({
+                        message: { text: 'Erro na exclusão do usuário', alert: 'danger' }
+                    })
+                    this.timerMessage(9000);
                 })
-                this.timerMessage(9000);
-            })
         } else {
-           //todo
+            //--todo--
         }
     }
 
@@ -110,12 +111,12 @@ export default class Main extends Component {
                     }
                     {/* CRIAR */}
                     <div className="btnCriar">
-                    <div className="d-flex align-items-center">
-                        <span className="lb_users">
-                            Usuários
+                        <div className="d-flex align-items-center">
+                            <span className="lb_users">
+                                Usuários
                         </span>
-                        <button type="button" className="btn btn-secondary ml-auto" onClick={(e) => this.handleClick(e)}>CRIAR</button>
-                    </div>
+                            <button type="button" className="btn btn-secondary ml-auto" onClick={(e) => this.handleClick(e)}>CRIAR</button>
+                        </div>
                     </div>
                     {/* tabela */}
                     <Table>

@@ -32,6 +32,7 @@ export default class CadastroUsuario extends Component {
         this.setState({ [e.target.name]: e.target.value })
     }
 
+    //validação do form
     validate = () => {
         let nomeErro = '';
         let nomeVagaErro = '';
@@ -59,7 +60,10 @@ export default class CadastroUsuario extends Component {
         }
         return true;
     }
+    
+    //submit do form
     submitHandler = (e) => {
+            //etapa de teste
         e.preventDefault();
         const isValid = this.validate();
         if (!isValid) {
@@ -76,15 +80,13 @@ export default class CadastroUsuario extends Component {
                 nomeVaga,
                 dataNascimento
             }
-            //Salvando usuário criado
+            //Salvando usuário criado no SERVER
             api.post('http://localhost:4000/usuarios/', data)
                 .then(res => {
                     this.setState({
                         message: { text: 'Usuário Adicionado com sucesso', alert: 'success' }
                     })
                     //refresh da pagina
-                    //this.componentDidMount();
-                    //duração do alerta ao usuário
                     alert(this.state.message.text);
                     this.returnToMain('/');
                     
@@ -99,6 +101,7 @@ export default class CadastroUsuario extends Component {
         }
     }
 
+    //ROTEAMENTOS
     returnToMain = () => {
         this.props.history.push('/');
     }
@@ -106,12 +109,13 @@ export default class CadastroUsuario extends Component {
     refreshage(){
         this.props.history.replace("/cadastroUsuario");
     }
-    //Not Working
+
     redirectToMain() {
         //props especial do react para as rotas
         this.props.history.push('/usuarios', this.state.message);
         //this.props.history.push('/usuarios/1')
     }
+    //FIM DOS ROTEAMENTOS
 
     //form com bootstrap
     //https://youtu.be/XHPL-rX9m-Q
