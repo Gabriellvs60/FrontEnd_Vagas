@@ -20,5 +20,5 @@ json-server --watch db.json -port 4000
 Entrar no diretório do projeto e executar o seguinte comando
 npm start
 
-## :bangbang: :bangbang: Obs: o JSON-SERVER deve rodar na porta 4000, pois o react está trabalhando nesta porta :bangbang: :bangbang:
+## :bangbang: :bangbang: Obs: O JSON-SERVER deve rodar na porta 4000, pois o react está trabalhando nesta porta :bangbang: :bangbang:
 :door: :four: :zero: :zero: :zero:
