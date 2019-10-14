@@ -1,50 +1,68 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './styles.css';
 
-export default class Usuario extends Component{
-    
-    constructor(props){
+import {
+    Card, Button, CardHeader, Col, CardBody,
+    CardTitle, CardText
+} from 'reactstrap';
+
+export default class Usuario extends Component {
+
+    constructor(props) {
         super(props);
         this.state = {
             id: this.props.match.params,
-            usuario:false
+            usuario: false
         }
-      }
+    }
 
-      //tutorial aqui: https://youtu.be/bE4q8Eg6DK0
-      componentDidMount()
-      {
+    //tutorial aqui: https://youtu.be/bE4q8Eg6DK0
+    componentDidMount() {
         const path = "http://localhost:4000/usuarios/"
-        const {id} = this.props.match.params;
+        const { id } = this.props.match.params;
         //alert(id)
         const url = path.concat(id);
-          fetch (url,{
-              method:'GET',
-              headers:{
-                  'Accept': 'application/json',
-                  'Content-TYpe' : 'application/json',
-              }
-          
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-TYpe': 'application/json',
+            }
+
         }).then((result) => {
             result.json().then((resp) => {
-                this.setState({usuario:resp})
+                this.setState({ usuario: resp })
             })
         })
-      }
+    }
+    
+    handleClick = () => {
+        //props especial do react para as rotas
+        //volta para o menu inicial
+        this.props.history.push('/');
+    }
 
-    render(){
+    render() {
         /* var id = this.props.match.params.id;
-        alert(id); */ 
+        alert(id); */
         var usuario = this.state.usuario;
         console.log(usuario);
-        
+
         return (
-        <div className="userInfo">
-            <h1>{usuario.nome}</h1>
-            <a>Vaga : {usuario.nomeVaga}</a>
-            <p>Data de Nascimento : {usuario.dataNascimento}</p>
-            <p>Email : {usuario.email}</p>
-        </div>
+            <div className="userInfo">
+                <Col sm="12" md={{ size: 6, offset: 3 }}> 
+                <Card>
+                    <CardHeader className="cardName">{usuario.nome}</CardHeader>
+                    <CardBody>
+                        <CardText>Vaga: {usuario.nomeVaga}</CardText>
+                        <CardText>Email: {usuario.email}</CardText>
+                        <CardText>Data de Nascimento{usuario.dataNascimento}</CardText>
+                        <Button className="btn_alterar btn-alert" onClick={(e) => this.handleClick(e)}>VOLTAR</Button>
+                    </CardBody>
+                </Card>
+                </Col>
+             
+            </div>
         )
     }
 }

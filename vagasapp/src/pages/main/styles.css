@@ -7,7 +7,7 @@
 
 .rowLink:active {
     background-color: rgb(143, 8, 136);
-    transition: all 0.25s;
+     transition: all 0.25s;
   }
 
 
