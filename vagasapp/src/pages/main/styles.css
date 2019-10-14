@@ -10,8 +10,6 @@
      transition: all 0.25s;
   }
 
-
-
 th, td {
   width: 30%;
   padding: 15px;
@@ -40,15 +38,19 @@ th, td {
   margin-left: 30%;
 }
 
-#btnEdit,
-#btnDelete{
+.btnEdit,
+.btnDelete{
     display: inline-block;
     vertical-align: top;
 }
 
-#btnEdit,
-#btnDelete :hover {
-  color: rgb(221, 183, 12);
+.btnEdit:hover {
+  color: rgb(194, 14, 207);
+  transition: all 0.25s;
+}
+
+.btnDelete:hover {
+  color: rgb(207, 19, 19);
   transition: all 0.25s;
 }
 

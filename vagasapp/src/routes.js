@@ -5,6 +5,7 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Main from './pages/main';
 import Usuario from './pages/usuario';
 import CadastroUsuario from './pages/cadastroUsuario';
+import EditaUsuario from './pages/editaUsuario';
 
 const Routes = () => (
     <BrowserRouter>
@@ -12,6 +13,7 @@ const Routes = () => (
         <Route exact path="/" component={Main} />
         <Route path="/usuarios/:id" component={Usuario} />
         <Route path="/cadastroUsuario/" component={CadastroUsuario} />
+        <Route path="/editaUsuario/:id" component={EditaUsuario} />
     </Switch>
     </BrowserRouter>
 );

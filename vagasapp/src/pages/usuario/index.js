@@ -35,7 +35,7 @@ export default class Usuario extends Component {
         })
     }
     
-    handleClick = () => {
+    returnToMain = () => {
         //props especial do react para as rotas
         //volta para o menu inicial
         this.props.history.push('/');
@@ -56,7 +56,7 @@ export default class Usuario extends Component {
                         <CardText>Vaga: {usuario.nomeVaga}</CardText>
                         <CardText>Email: {usuario.email}</CardText>
                         <CardText>Data de Nascimento{usuario.dataNascimento}</CardText>
-                        <Button className="btn_alterar btn-alert" onClick={(e) => this.handleClick(e)}>VOLTAR</Button>
+                        <Button className="btn_alterar btn-alert" onClick={(e) => this.returnToMain(e)}>VOLTAR</Button>
                     </CardBody>
                 </Card>
                 </Col>

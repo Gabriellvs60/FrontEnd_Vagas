@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import "./styles.css";
-import { Link } from 'react-router-dom';
 
-import { Table, Button, Form, FormGroup, Label, Row }
+import api from '../../services/api';
+
+import { Table, Button, Form, FormGroup, Label, Row, Alert }
     from 'reactstrap';
 
 //icones dos botões
 import { Edit, Delete } from '@material-ui/icons';
+
 export default class Main extends Component {
     constructor(props) {
         super(props);
@@ -14,9 +16,15 @@ export default class Main extends Component {
             id: "null",
             items: [],
             isLoaded: false,
+            //preparando os alertas sobre sucesso nas ações do usuário
+            message: {
+                text: '',
+                alert: ''
+            }
         }
     }
-
+    
+    //chamada json sem axios
     componentDidMount() {
         let url = "http://localhost:4000/usuarios"
         fetch(url)
@@ -26,38 +34,54 @@ export default class Main extends Component {
                     isLoaded: true,
                     items: json,
                 })
+                this.forceUpdate();
             });
     }
 
+    //determina o texto e duração da mensagem...
+    timerMessage(duration) {
+        setTimeout(() => {
+            this.setState({ message: { text: '', alert: '' } });
+        }, duration);
+    }
+
+    //carrega view para ver detalhes do usuario
+    viewItem = id => {
+        this.props.history.push('/usuarios/' + id);
+    }
+
+    //chama o cadastro do usuario
     handleClick = () => {
         //props especial do react para as rotas
         this.props.history.push('/cadastroUsuario');
     }
 
-    deleteItem = id => {
-        let confirmDelete = window.confirm('Deseja Realmente deletar o item')
-        if (confirmDelete) {
-            fetch('http://localhost:4000/usuarios/' + id, {
-                method: 'delete',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id
-                })
-            })
-                .then(response => response.json())
-                .then(item => {
-                    this.props.deleteItemFromState(id)
-                })
-                .catch(err => console.log(err))
-        }
+    //chama a tela de edição do usuario
+    updateItem = id => {
+        this.props.history.push('/editaUsuario/' + id)
     }
 
-    updateItem = id => {
-        alert("editar")
+    
+    deleteItem = id => {
+        api.delete('http://localhost:4000/usuarios/' + id)
+            .then(res => {
+                this.setState({
+                    message: { text: 'Usuário excluido com sucesso', alert: 'success' }
+                })
+                //refresh da pagina
+                this.componentDidMount();
+                //duração do alerta ao usuário
+                this.timerMessage(9000);
+            })
+            .catch((err) => {
+                this.setState({
+                    message: { text: 'Erro na exclusão do usuário', alert: 'danger' }
+                })
+                this.timerMessage(9000);
+            })
     }
+
+   
 
     render() {
         var { isLoaded, items, id } = this.state;
@@ -67,6 +91,11 @@ export default class Main extends Component {
         else {
             return (
                 <div className="main">
+                    {
+                        this.state.message.text !== '' ? (
+                            <Alert color={this.state.message.alert}>{this.state.message.text}</Alert>
+                        ) : ''
+                    }
                     <div className="button">
                         <Form>
                             <FormGroup className="form">
@@ -89,9 +118,9 @@ export default class Main extends Component {
                         <tbody>
                             {items.map(item => (
                                 <tr className="rowLink" key={item.id} >
-                                    <td className="tdAction">{item.id}</td>
-                                    <td className="tdAction">{item.nome}</td>
-                                    <td className="tdAction">{item.nomeVaga}</td>
+                                    <td className="tdAction" onClick={() => this.viewItem(item.id)}>{item.id}</td>
+                                    <td className="tdAction" onClick={() => this.viewItem(item.id)}>{item.nome}</td>
+                                    <td className="tdAction" onClick={() => this.viewItem(item.id)}>{item.nomeVaga}</td>
                                     <td>
                                         <Edit className="btnEdit" onClick={() => this.updateItem(item.id)}></Edit>
                                         <Delete className="btnDelete" onClick={() => this.deleteItem(item.id)}></Delete>
@@ -105,3 +134,23 @@ export default class Main extends Component {
         }
     }
 }
+
+//delete sem axios
+    /*   deleteItem = id => {
+          let confirmDelete = window.confirm('Deseja Realmente deletar o item')
+          if (confirmDelete) {
+              fetch('http://localhost:4000/usuarios/' + id, {
+                  method: 'delete',
+                  headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+                  },
+          })
+              .then((response) => response.json())
+              .then((responseJson) => { 
+              //this.setState({text: responseJson.success, alert:});  //***** put the result -> state
+              alert(JSON.stringify(responseJson));
+              console.log(responseJson)
+               }) 
+               }
+  } */
