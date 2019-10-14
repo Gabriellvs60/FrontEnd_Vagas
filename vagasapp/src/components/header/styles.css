@@ -22,3 +22,7 @@ header#main-header {
     align-items: center;
     text-align: left
     }
+    .nav{
+        background-color: black;
+        height: 60px;
+    }

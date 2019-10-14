@@ -55,7 +55,7 @@ export default class Usuario extends Component {
                     <CardBody>
                         <CardText>Vaga: {usuario.nomeVaga}</CardText>
                         <CardText>Email: {usuario.email}</CardText>
-                        <CardText>Data de Nascimento{usuario.dataNascimento}</CardText>
+                        <CardText>Data de Nascimento: {usuario.dataNascimento}</CardText>
                         <Button className="btn_alterar btn-alert" onClick={(e) => this.returnToMain(e)}>VOLTAR</Button>
                     </CardBody>
                 </Card>

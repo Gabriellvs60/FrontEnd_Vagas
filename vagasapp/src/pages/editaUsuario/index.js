@@ -6,6 +6,8 @@ import Axios from 'axios'
 import { Button, Form, FormGroup, Label, Input, Alert }
     from 'reactstrap';
 
+import Loader from '../../components/loader'
+
 export default class EditaUsuario extends Component {
 
     constructor(props) {
@@ -29,15 +31,15 @@ export default class EditaUsuario extends Component {
     //tutorial aqui: https://youtu.be/bE4q8Eg6DK0
     componentDidMount() {
         const { id } = this.state.id;
-        api.get('/' + id )
+        api.get('/' + id)
             .then(response => {
-                this.setState({ 
-                    id : response.data.id,
+                this.setState({
+                    id: response.data.id,
                     nome: response.data.nome,
                     email: response.data.email,
                     nomeVaga: response.data.nomeVaga,
                     dataNascimento: response.data.dataNascimento
-                 });
+                });
             })
             .catch(function (error) {
                 console.log(error);
@@ -45,12 +47,12 @@ export default class EditaUsuario extends Component {
     }
 
     //setando estados nas entradas do form
-    changeHandler (e) {
+    changeHandler(e) {
         const target = e.target;
         const value = target.value;
         const name = target.name;
-        this.setState({ 
-            [name] : value
+        this.setState({
+            [name]: value
         });
     }
 
@@ -69,18 +71,20 @@ export default class EditaUsuario extends Component {
             dataNascimento,
             id
         }
-            //const {data} = await api.put(`/${id}`, user)
-            //const currentState = this.state.todoListItems
-            //this.setState({todoListItems: currentState.concat(itemToEdit)})
-           
+        //const {data} = await api.put(`/${id}`, user)
+        //const currentState = this.state.todoListItems
+        //this.setState({todoListItems: currentState.concat(itemToEdit)})
+
         //Salvando usuário modificado
         //api.put('/' + id , {data})
-        
-        Axios.put(`http://localhost:4000/usuarios/${this.state.id}`, user)
+
+        api.put(`http://localhost:4000/usuarios/${this.state.id}`, user)
             .then(res => {
                 this.setState({
+                    //ainda nao exibe o alerta na tela
                     message: { text: 'Usuário editado com sucesso', alert: 'success' }
                 })
+                alert(this.state.message.text);
                 //refresh da pagina
                 //this.componentDidMount();
                 //duração do alerta ao usuário
@@ -94,19 +98,19 @@ export default class EditaUsuario extends Component {
             })
     }
 
-returnToMain = () => {
-    this.props.history.push('/');
-}
+    returnToMain = () => {
+        this.props.history.push('/');
+    }
 
-render() {
-    return (
-        <div>
-             {
-                        this.state.message.text !== '' ? (
-                            <Alert color={this.state.message.alert}>{this.state.message.text}</Alert>
-                        ) : ''
-                    }
-            <div className="formulario">
+    render() {
+        return (
+            <div>
+                {
+                    this.state.message.text !== '' ? (
+                        <Alert color={this.state.message.alert}>{this.state.message.text}</Alert>
+                    ) : ''
+                }
+                <div className="formulario">
                     <Form className="login-form form-horizontal" onSubmit={this.submitHandler}>
                         <h2 className="text-center">Edição de Usuário</h2>
                         <FormGroup>
@@ -116,9 +120,9 @@ render() {
                                 placeholder="Nome"
                                 name="nome"
                                 value={this.state.nome}
-                               // value={usuario.nome}
-                               onChange={this.changeHandler.bind(this)}
-                                />
+                                // value={usuario.nome}
+                                onChange={this.changeHandler.bind(this)}
+                            />
                         </FormGroup>
                         <FormGroup>
                             <Label>Vaga</Label>
@@ -127,9 +131,9 @@ render() {
                                 placeholder="ex: Front-End, Back-End"
                                 name="nomeVaga"
                                 value={this.state.nomeVaga}
-                               // value={usuario.nomeVaga}
-                               onChange={this.changeHandler.bind(this)} 
-                                />
+                                // value={usuario.nomeVaga}
+                                onChange={this.changeHandler.bind(this)}
+                            />
                         </FormGroup>
                         <FormGroup>
                             <Label>Data de Nascimento</Label>
@@ -137,8 +141,8 @@ render() {
                                 type="date"
                                 name="dataNascimento"
                                 value={this.state.dataNascimento}
-                               // value={usuario.dataNascimento}
-                               onChange={this.changeHandler.bind(this)}
+                                // value={usuario.dataNascimento}
+                                onChange={this.changeHandler.bind(this)}
                             />
                         </FormGroup>
                         <FormGroup>
@@ -162,7 +166,6 @@ render() {
                     </Form>
                 </div>
             </div>
-    )
-
-}
+        )
+    }
 }

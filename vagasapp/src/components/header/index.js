@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import "./styles.css";
 
 export default class Header extends Component {
@@ -7,7 +7,7 @@ export default class Header extends Component {
         return (
             
         <header id="main-header">
-            {      
+            {   
             <img src="navelogo.png" className="logo"></img>
             }
         </header>)

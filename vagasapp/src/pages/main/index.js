@@ -3,6 +3,8 @@ import "./styles.css";
 
 import api from '../../services/api';
 
+import Loader from '../../components/loader';
+
 import { Table, Button, Form, FormGroup, Label, Row, Alert }
     from 'reactstrap';
 
@@ -23,7 +25,7 @@ export default class Main extends Component {
             }
         }
     }
-    
+
     //chamada json sem axios
     componentDidMount() {
         let url = "http://localhost:4000/usuarios"
@@ -61,9 +63,11 @@ export default class Main extends Component {
         this.props.history.push('/editaUsuario/' + id)
     }
 
-    
+
     deleteItem = id => {
-        api.delete('http://localhost:4000/usuarios/' + id)
+        let confirmDelete = window.confirm('Deseja Realmente deletar o item')
+        if (confirmDelete == true) {
+            api.delete('http://localhost:4000/usuarios/' + id)
             .then(res => {
                 this.setState({
                     message: { text: 'Usuário excluido com sucesso', alert: 'success' }
@@ -79,14 +83,22 @@ export default class Main extends Component {
                 })
                 this.timerMessage(9000);
             })
+        } else {
+           //todo
+        }
     }
 
-   
+
 
     render() {
         var { isLoaded, items, id } = this.state;
         if (!isLoaded) {
-            return <div>Carregando...</div>
+            return (
+                <div>
+                    <div>Carregando...</div>
+                    <Loader />
+                </div>
+            )
         }
         else {
             return (
@@ -136,21 +148,21 @@ export default class Main extends Component {
 }
 
 //delete sem axios
-    /*   deleteItem = id => {
-          let confirmDelete = window.confirm('Deseja Realmente deletar o item')
-          if (confirmDelete) {
-              fetch('http://localhost:4000/usuarios/' + id, {
-                  method: 'delete',
-                  headers: {
-                      'Accept': 'application/json',
-                      'Content-Type': 'application/json'
-                  },
-          })
-              .then((response) => response.json())
-              .then((responseJson) => { 
-              //this.setState({text: responseJson.success, alert:});  //***** put the result -> state
-              alert(JSON.stringify(responseJson));
-              console.log(responseJson)
-               }) 
-               }
-  } */
+/*   deleteItem = id => {
+      let confirmDelete = window.confirm('Deseja Realmente deletar o item')
+      if (confirmDelete) {
+          fetch('http://localhost:4000/usuarios/' + id, {
+              method: 'delete',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+              },
+      })
+          .then((response) => response.json())
+          .then((responseJson) => {
+          //this.setState({text: responseJson.success, alert:});  //***** put the result -> state
+          alert(JSON.stringify(responseJson));
+          console.log(responseJson)
+           })
+           }
+} */
