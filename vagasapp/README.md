@@ -1,6 +1,6 @@
 App FrontEndVagas
 
-## Available Scripts
+## Instruções
 :running:
 Requisitos para execução do app:
 
