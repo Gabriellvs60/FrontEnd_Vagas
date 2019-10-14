@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import "./styles.css";
 import { Link } from 'react-router-dom';
 
-import {Table, Button, Form, FormGroup, Label, Row}
-from'reactstrap';
+import { Table, Button, Form, FormGroup, Label, Row }
+    from 'reactstrap';
 
+//icones dos botões
+import { Edit, Delete } from '@material-ui/icons';
 export default class Main extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
-            id:"null",
+            id: "null",
             items: [],
             isLoaded: false,
         }
@@ -32,13 +33,32 @@ export default class Main extends Component {
         //props especial do react para as rotas
         this.props.history.push('/cadastroUsuario');
     }
- 
-    //tentando pegar o valor do id na td da table
-  /*   callRoute = (e) => {
-        this.setState({[e.target.name]: e.target.value})
-        alert(this.state.id)
-    } */
-   
+
+    deleteItem = id => {
+        let confirmDelete = window.confirm('Deseja Realmente deletar o item')
+        if (confirmDelete) {
+            fetch('http://localhost:4000/usuarios/' + id, {
+                method: 'delete',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id
+                })
+            })
+                .then(response => response.json())
+                .then(item => {
+                    this.props.deleteItemFromState(id)
+                })
+                .catch(err => console.log(err))
+        }
+    }
+
+    updateItem = id => {
+        alert("editar")
+    }
+
     render() {
         var { isLoaded, items, id } = this.state;
         if (!isLoaded) {
@@ -47,14 +67,13 @@ export default class Main extends Component {
         else {
             return (
                 <div className="main">
-
                     <div className="button">
                         <Form>
                             <FormGroup className="form">
-                            <Row form> 
-                            <Label className="lb_users">Usuarios</Label>
-                            <Button onClick={(e) => this.handleClick(e)} className="btn_criar btn-dark">CRIAR</Button>
-                            </Row>
+                                <Row form>
+                                    <Label className="lb_users">Usuarios</Label>
+                                    <Button onClick={(e) => this.handleClick(e)} className="btn_criar btn-dark">CRIAR</Button>
+                                </Row>
                             </FormGroup>
                         </Form>
                     </div>
@@ -63,18 +82,20 @@ export default class Main extends Component {
                             <tr>
                                 <th>ID</th>
                                 <th>Nome</th>
-                                <th>Username</th>
-                                <th>Excluir/Alterar</th>
+                                <th>Vaga</th>
+                                <th>Ação</th>
                             </tr>
                         </thead>
                         <tbody>
                             {items.map(item => (
-                                <tr className="rowLink" >
-                                    <Link to={`/usuarios/${item.id}`}><td className="idUser">{item.id}</td></Link>
-                                    <td>{item.nome}</td>
-                                    <td>{item.nomeVaga}</td>
-                                    <td><Button className="btn_excluir btn-danger">Excluir</Button></td>
-                                    <td><Button className="btn_excluir btn-alert">Alterar</Button></td>
+                                <tr className="rowLink" key={item.id} >
+                                    <td className="tdAction">{item.id}</td>
+                                    <td className="tdAction">{item.nome}</td>
+                                    <td className="tdAction">{item.nomeVaga}</td>
+                                    <td>
+                                        <Edit className="btnEdit" onClick={() => this.updateItem(item.id)}></Edit>
+                                        <Delete className="btnDelete" onClick={() => this.deleteItem(item.id)}></Delete>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

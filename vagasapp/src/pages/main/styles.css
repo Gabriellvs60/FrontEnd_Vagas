@@ -5,7 +5,7 @@
     transition: all 0.25s;
   }
 
-.rowLink:active {
+  .rowLink:active {
     background-color: rgb(143, 8, 136);
      transition: all 0.25s;
   }
@@ -36,9 +36,20 @@ th, td {
   margin-right: 20%;
 }
 
-.btn_criar{
+#btn_criar{
   margin-left: 30%;
 }
 
+#btnEdit,
+#btnDelete{
+    display: inline-block;
+    vertical-align: top;
+}
+
+#btnEdit,
+#btnDelete :hover {
+  color: rgb(221, 183, 12);
+  transition: all 0.25s;
+}
 
 

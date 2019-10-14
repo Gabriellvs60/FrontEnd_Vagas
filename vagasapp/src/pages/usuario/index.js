@@ -28,7 +28,6 @@ export default class Usuario extends Component {
                 'Accept': 'application/json',
                 'Content-TYpe': 'application/json',
             }
-
         }).then((result) => {
             result.json().then((resp) => {
                 this.setState({ usuario: resp })
