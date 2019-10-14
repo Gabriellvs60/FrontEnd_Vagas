@@ -1,23 +1,16 @@
 
 .rowLink:hover {
-    background-color: rgb(182, 226, 169);
+    background-color: rgb(115, 233, 80);
     color: blue;
+    transition: all 0.25s;
   }
 
 .rowLink:active {
-    background-color: rgb(245, 159, 159);
+    background-color: rgb(143, 8, 136);
+    transition: all 0.25s;
   }
 
-.tableUsuarios{
-  position: absolute;
-    margin-top: 30px;
-    font-size: 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: left
-    
-}
+
 
 th, td {
   width: 30%;
@@ -31,7 +24,21 @@ th, td {
     color: blue;
 }
 
+.form{
+  margin-top: 20px;
+  margin-left: 10%;
+  align-items: center;
+  text-align: center;
+}
 
+.lb_users{
+  font-size: 150%;
+  margin-right: 20%;
+}
+
+.btn_criar{
+  margin-left: 30%;
+}
 
 
 

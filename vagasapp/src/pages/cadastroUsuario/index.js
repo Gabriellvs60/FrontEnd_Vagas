@@ -24,8 +24,20 @@ export default class CadastroUsuario extends Component{
       //coletando dados de form para preparar envio api
       //https://youtu.be/x9UEDRbLhJE
       submitHandler = e => {
-          e.preventDefault()
-          console.log(this.state)
+        fetch('http://localhost:4000/usuarios', {
+            method: 'POST',
+            body: JSON.stringify({
+              nome : this.state.nome,
+              email : this.state.email,
+              nomeVaga : this.state.nomeVaga,
+              dataNascimento : this.state.dataNascimento
+            }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8"
+            }
+          })
+          .then(response => response.json())
+          .then(json => console.log(json))
       }
       //form com bootstrap
       //https://youtu.be/XHPL-rX9m-Q

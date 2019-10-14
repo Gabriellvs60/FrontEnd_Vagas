@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import "./styles.css";
 import { Link } from 'react-router-dom';
-import { Table } from 'reactstrap';
+
+import {Table, Button, Form, FormGroup, Label, Row}
+from'reactstrap';
 
 export default class Main extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            id:"null",
             items: [],
             isLoaded: false,
         }
@@ -30,13 +33,9 @@ export default class Main extends Component {
         this.props.history.push('/cadastroUsuario');
     }
  
-    callRoute (e) {
-        alert(e.target.value);
-    }
-    
-
+   
     render() {
-        var { isLoaded, items } = this.state;
+        var { isLoaded, items, id } = this.state;
         if (!isLoaded) {
             return <div>Carregando...</div>
         }
@@ -45,10 +44,14 @@ export default class Main extends Component {
                 <div className="main">
 
                     <div className="button">
-                        <p>Usuarios</p>
-                        <button onClick={(e) => this.handleClick(e)}>
-                            Click me
-                </button>
+                        <Form>
+                            <FormGroup className="form">
+                            <Row form> 
+                            <Label className="lb_users">Usuarios</Label>
+                            <Button onClick={(e) => this.handleClick(e)} className="btn_criar btn-dark">CRIAR</Button>
+                            </Row>
+                            </FormGroup>
+                        </Form>
                     </div>
                     <Table>
                         <thead>
@@ -61,7 +64,7 @@ export default class Main extends Component {
                         <tbody>
                             {items.map(item => (
                                 <tr className="rowLink" >
-                                    <td className="idUser" value="1" onClick={e => this.callRoute(e, "value")}>{item.id}</td>
+                                    <td className="idUser" value={id} onClick={e => this.callRoute(e, "value")}>{item.id}</td>
                                     <td>{item.nome}</td>
                                     <td>{item.nomeVaga}</td>
                                 </tr>
