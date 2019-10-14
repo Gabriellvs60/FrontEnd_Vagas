@@ -19,7 +19,11 @@ export default class CadastroUsuario extends Component {
             nome: '',
             email: '',
             nomeVaga: '',
-            dataNascimento: ''
+            dataNascimento: '',
+            nomeErro: '',
+            nomeVagaErro: '',
+            dataNascimentoErro: '',
+            emailErro: ''
         }
     }
 
@@ -28,48 +32,91 @@ export default class CadastroUsuario extends Component {
         this.setState({ [e.target.name]: e.target.value })
     }
 
-    submitHandler = (e) => {
-        //coletando dados do estado, jogando no objeto a ser enviado
-        const nome = this.state.nome;
-        const email = this.state.email;
-        const nomeVaga = this.state.nomeVaga;
-        const dataNascimento = this.state.dataNascimento;
-        const data = {
-            nome,
-            email,
-            nomeVaga,
-            dataNascimento
+    validate = () => {
+        let nomeErro = '';
+        let nomeVagaErro = '';
+        let dataNascimentoErro = '';
+        let emailErro = '';
+
+        if (!this.state.dataNascimento) {
+            dataNascimentoErro = "Campo Data não pode ser vazio"
         }
-        //Salvando usuário criado
-        api.post('http://localhost:4000/usuarios/', data)
-            .then(res => {
-                this.setState({
-                    message: { text: 'Usuário Adicionado com sucesso', alert: 'success' }
+
+        if (!this.state.nomeVaga) {
+            nomeVagaErro = "Campo vaga não pode ser vazio"
+        }
+
+        if (!this.state.nome) {
+            nomeErro = "Campo nome não pode ser vazio"
+        }
+        if (!this.state.email.includes("@")) {
+            emailErro = "Email inválido"
+        }
+
+        if (emailErro || nomeErro || emailErro || dataNascimentoErro) {
+            this.setState({ emailErro, nomeErro, nomeVagaErro, dataNascimentoErro });
+            return false;
+        }
+        return true;
+    }
+    submitHandler = (e) => {
+        e.preventDefault();
+        const isValid = this.validate();
+        if (!isValid) {
+            console.log(isValid)
+        } else {
+            //coletando dados do estado, jogando no objeto a ser enviado
+            const nome = this.state.nome;
+            const email = this.state.email;
+            const nomeVaga = this.state.nomeVaga;
+            const dataNascimento = this.state.dataNascimento;
+            const data = {
+                nome,
+                email,
+                nomeVaga,
+                dataNascimento
+            }
+            //Salvando usuário criado
+            api.post('http://localhost:4000/usuarios/', data)
+                .then(res => {
+                    this.setState({
+                        message: { text: 'Usuário Adicionado com sucesso', alert: 'success' }
+                    })
+                    //refresh da pagina
+                    //this.componentDidMount();
+                    //duração do alerta ao usuário
+                    alert(this.state.message.text);
+                    this.returnToMain('/');
+                    
                 })
-                //refresh da pagina
-                //this.componentDidMount();
-                //duração do alerta ao usuário
-                alert(this.state.message.text);
-            })
-            .catch((err) => {
-                this.setState({
-                    message: { text: 'Erro na inclusão do usuário', alert: 'danger' }
+                .catch((err) => {
+                    this.setState({
+                        message: { text: 'Erro na inclusão do usuário', alert: 'danger' }
+                    })
+                    alert(this.state.message.text);
+                    console.log(err);
                 })
-                alert(this.state.message.text);
-            })
+        }
     }
 
+    returnToMain = () => {
+        this.props.history.push('/');
+    }
+
+    refreshage(){
+        this.props.history.replace("/cadastroUsuario");
+    }
     //Not Working
-    redirectToMain () {
+    redirectToMain() {
         //props especial do react para as rotas
-        this.props.history.push('/usuarios',this.state.message);
+        this.props.history.push('/usuarios', this.state.message);
         //this.props.history.push('/usuarios/1')
     }
 
     //form com bootstrap
     //https://youtu.be/XHPL-rX9m-Q
     render() {
-        const { nome, email, nomeVaga, dataNascimento } = this.state
+        const { nome, email, nomeVaga, dataNascimento, nomeErro, nomeVagaErro, emailErro, dataNascimentoErro } = this.state
         return (
             <div>
                 <div className="formulario">
@@ -83,6 +130,8 @@ export default class CadastroUsuario extends Component {
                                 name="nome"
                                 value={nome}
                                 onChange={this.changeHandler} />
+                            {/*  VALIDAÇÃO */}
+                            {this.state.nomeErro ? <div style={{ fontsize: 12, color: "red" }}>{this.state.nomeErro}</div> : null}
                         </FormGroup>
                         <FormGroup>
                             <Label>Vaga</Label>
@@ -92,6 +141,7 @@ export default class CadastroUsuario extends Component {
                                 name="nomeVaga"
                                 value={nomeVaga}
                                 onChange={this.changeHandler} />
+                            {this.state.nomeVagaErro ? <div style={{ fontsize: 12, color: "red" }}>{this.state.nomeVagaErro}</div> : null}
                         </FormGroup>
                         <FormGroup>
                             <Label>Data de Nascimento</Label>
@@ -99,8 +149,8 @@ export default class CadastroUsuario extends Component {
                                 type="date"
                                 name="dataNascimento"
                                 value={dataNascimento}
-                                onChange={this.changeHandler}
-                            />
+                                onChange={this.changeHandler} />
+                            {this.state.dataNascimentoErro ? <div style={{ fontsize: 12, color: "red" }}>{this.state.dataNascimentoErro}</div> : null}
                         </FormGroup>
                         <FormGroup>
                             <Label>Email</Label>
@@ -111,6 +161,7 @@ export default class CadastroUsuario extends Component {
                                 value={email}
                                 onChange={this.changeHandler}
                             />
+                            {this.state.emailErro ? <div style={{ fontsize: 12, color: "red" }} >{this.state.emailErro}</div> : null}
                         </FormGroup>
                         <Button
                             className="btn-lg btn-dark btn-block"
@@ -121,6 +172,7 @@ export default class CadastroUsuario extends Component {
                         <div className="text-center pt3"></div>
                     </Form>
                 </div>
+                <Button color="link" className="btn_voltar" onClick={(e) => this.returnToMain(e)}>VOLTAR</Button>
             </div>
         )
     }
@@ -130,19 +182,19 @@ export default class CadastroUsuario extends Component {
 //POST PURO sem o Axios
     //coletando dados de form para preparar envio api
     //https://youtu.be/x9UEDRbLhJE
-    /*     submitHandler = e => {
-          fetch('http://localhost:4000/usuarios', {
-              method: 'POST',
-              body: JSON.stringify({
-                nome : this.state.nome,
-                email : this.state.email,
-                nomeVaga : this.state.nomeVaga,
-                dataNascimento : this.state.dataNascimento
-              }),
-              headers: {
-                "Content-type": "application/json; charset=UTF-8"
-              }
-            })
-            .then(response => response.json())
-            .then(json => console.log(json))
-        } */
+/*     submitHandler = e => {
+      fetch('http://localhost:4000/usuarios', {
+          method: 'POST',
+          body: JSON.stringify({
+            nome : this.state.nome,
+            email : this.state.email,
+            nomeVaga : this.state.nomeVaga,
+            dataNascimento : this.state.dataNascimento
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          }
+        })
+        .then(response => response.json())
+        .then(json => console.log(json))
+    } */

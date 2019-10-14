@@ -1,6 +1,6 @@
 
 .rowLink:hover {
-    background-color: rgb(115, 233, 80);
+    background-color:#5cb85c;
     color: blue;
     transition: all 0.25s;
   }
@@ -54,4 +54,8 @@ th, td {
   transition: all 0.25s;
 }
 
+.btnCriar{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 

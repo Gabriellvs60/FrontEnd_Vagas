@@ -108,16 +108,16 @@ export default class Main extends Component {
                             <Alert color={this.state.message.alert}>{this.state.message.text}</Alert>
                         ) : ''
                     }
-                    <div className="button">
-                        <Form>
-                            <FormGroup className="form">
-                                <Row form>
-                                    <Label className="lb_users">Usuarios</Label>
-                                    <Button onClick={(e) => this.handleClick(e)} className="btn_criar btn-dark">CRIAR</Button>
-                                </Row>
-                            </FormGroup>
-                        </Form>
+                    {/* CRIAR */}
+                    <div className="btnCriar">
+                    <div className="d-flex align-items-center">
+                        <span className="lb_users">
+                            Usuários
+                        </span>
+                        <button type="button" className="btn btn-secondary ml-auto" onClick={(e) => this.handleClick(e)}>CRIAR</button>
                     </div>
+                    </div>
+                    {/* tabela */}
                     <Table>
                         <thead>
                             <tr>

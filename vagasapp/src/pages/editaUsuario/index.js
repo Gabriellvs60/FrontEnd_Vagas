@@ -6,8 +6,6 @@ import Axios from 'axios'
 import { Button, Form, FormGroup, Label, Input, Alert }
     from 'reactstrap';
 
-import Loader from '../../components/loader'
-
 export default class EditaUsuario extends Component {
 
     constructor(props) {
@@ -165,6 +163,7 @@ export default class EditaUsuario extends Component {
                         <div className="text-center pt3"></div>
                     </Form>
                 </div>
+                <Button color="link" className="btn_voltar" onClick={(e) => this.returnToMain(e)}>VOLTAR</Button>
             </div>
         )
     }
