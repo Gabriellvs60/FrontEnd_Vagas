@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import "./styles.css";
 import {Link} from 'react-router-dom';
-import Button from '../../components/createButton'
+
 
 export default class Main extends Component{
     
@@ -24,7 +24,11 @@ export default class Main extends Component{
           })
         });
       }
-    
+      
+      handleClick = () => {
+        this.props.history.push('/cadastroUsuario');
+      }
+
       render(){
         var {isLoaded, items} = this.state;
     
@@ -33,9 +37,14 @@ export default class Main extends Component{
         }
         else{
             return (
-                
-                <div className="tableUsuarios">
-                <div className="button"><Button/></div>
+                <div className="main">
+                <div className="button">
+                <p>Usuarios</p>
+                <button onClick={(e) => this.handleClick(e)}>
+                 Click me
+                </button>
+                </div>
+                <div className="tableUsuarios" >
                 <table className="table">
                   <thead>
                     <tr>
@@ -55,7 +64,7 @@ export default class Main extends Component{
                   </tbody>
                 </table>
                 </div>
-                
+                </div>
             );
           }
     }
