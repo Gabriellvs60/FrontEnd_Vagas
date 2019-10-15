@@ -15,7 +15,7 @@ Disponível no link: https://github.com/Gabriellvs60/JsonServer
 1. Rodando o Json-server
 Após instalado, rodar o server com o seguinte comando:
 
-json-server --watch db.json -port 4000
+json-server --watch db.json --port 4000
 
 2. Rodando o App Vagas
 Entrar no diretório do projeto e executar o seguinte comando
